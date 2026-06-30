@@ -74,7 +74,7 @@ const MOCK_GAMES = [
     id: 'wallpaper-engine',
     name: 'Wallpaper Engine',
     launcher: 'steam',
-    genre: 'Sandbox', // Filter as sandbox or utility
+    genre: 'Sandbox',
     playtime: 32090,
     banner: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/431960/library_hero.jpg',
     cover: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/431960/library_600x900.jpg',
@@ -91,20 +91,10 @@ const MOCK_GAMES = [
     description: 'Embark on the craziest journey of your life in It Takes Two, a genre-bending platform adventure created purely for co-op. Invite a friend to join for free with Friend’s Pass and work together across a huge variety of gleefully disruptive gameplay challenges.'
   },
   {
-    id: 'operation-tango',
-    name: 'Operation: Tango',
-    launcher: 'epic',
-    genre: 'Puzzle',
-    playtime: 120,
-    banner: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1335520/library_hero.jpg',
-    cover: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1335520/library_600x900.jpg',
-    description: 'It takes two to save the world in this cooperative spy adventure. Pair up with a friend as Agent or Hacker—with only your voices to connect you—and work together to bring a high-tech global menace to its knees in a near-future world.'
-  },
-  {
     id: 'vampire-survivors',
     name: 'Vampire Survivors',
     launcher: 'steam',
-    genre: 'Shooter', // Filter as shooter / action
+    genre: 'Shooter',
     playtime: 8320,
     banner: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1794680/library_hero.jpg',
     cover: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1794680/library_600x900.jpg',
@@ -134,7 +124,7 @@ const MOCK_GAMES = [
     id: 'rocket-league',
     name: 'Rocket League',
     launcher: 'epic',
-    genre: 'Shooter', // Map under action/shooter catalog for simplicity
+    genre: 'Shooter',
     playtime: 29400,
     banner: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/252950/library_hero.jpg',
     cover: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/252950/library_600x900.jpg',
@@ -208,14 +198,13 @@ const tiltCard = document.getElementById('hero-tilt-card');
 if (tiltCard) {
   tiltCard.addEventListener('mousemove', (e) => {
     const rect = tiltCard.getBoundingClientRect();
-    const x = e.clientX - rect.left; // x coordinate inside element
-    const y = e.clientY - rect.top;  // y coordinate inside element
+    const x = e.clientX - rect.left; 
+    const y = e.clientY - rect.top;  
     
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
     
-    // Rotate amount
-    const rotateX = ((centerY - y) / centerY) * 12; // max 12 deg
+    const rotateX = ((centerY - y) / centerY) * 12; 
     const rotateY = ((x - centerX) / centerX) * 12;
     
     tiltCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
@@ -247,7 +236,7 @@ tabButtons.forEach(btn => {
   });
 });
 
-// 2. Telemetry Gauges (Fluctuating stats simulation)
+// 2. Telemetry Gauges
 let cpuVal = 28;
 let ramVal = 44;
 let gpuTemp = 58;
@@ -258,7 +247,6 @@ const ramMeter = document.getElementById('sim-ram-meter');
 const cpuText = document.getElementById('sim-cpu-val');
 const ramText = document.getElementById('sim-ram-val');
 
-// Advanced utility tab circular chart elements
 const dialCpuBar = document.getElementById('dial-cpu-bar');
 const dialGpuBar = document.getElementById('dial-gpu-bar');
 const dialRamBar = document.getElementById('dial-ram-bar');
@@ -268,19 +256,16 @@ const dialGpuVal = document.getElementById('dial-gpu-val');
 const dialRamVal = document.getElementById('dial-ram-val');
 
 function fluctuateTelemetry() {
-  // Minor math variations
   cpuVal = Math.min(100, Math.max(5, Math.floor(cpuVal + (Math.random() * 12 - 6))));
   ramVal = Math.min(100, Math.max(10, Math.floor(ramVal + (Math.random() * 2 - 1))));
   gpuTemp = Math.min(85, Math.max(45, Math.floor(gpuTemp + (Math.random() * 4 - 2))));
   ramGB = parseFloat((32.0 * (ramVal / 100)).toFixed(1));
 
-  // Render Homepage meters
   if (cpuMeter) cpuMeter.style.width = `${cpuVal}%`;
   if (ramMeter) ramMeter.style.width = `${ramVal}%`;
   if (cpuText) cpuText.textContent = `${cpuVal}%`;
   if (ramText) ramText.textContent = `${ramVal}%`;
 
-  // Render Advanced Telemetry Tab
   if (dialCpuBar) {
     dialCpuBar.setAttribute('stroke-dasharray', `${cpuVal}, 100`);
     dialCpuVal.textContent = `${cpuVal}%`;
@@ -295,7 +280,6 @@ function fluctuateTelemetry() {
   }
 }
 
-// Telemetry interval loops
 setInterval(fluctuateTelemetry, 1500);
 
 // Purge Active RAM feature
@@ -307,12 +291,10 @@ if (runGcBtn) {
     runGcBtn.disabled = true;
     runGcBtn.textContent = 'Purging...';
     
-    // Add logs
     appendLog('[22:42:01] Pre-launch Optimizer: Initiating RAM Standby garbage collection...');
     
     setTimeout(() => {
       appendLog('[22:42:02] GC Purge: Purging standby pages, list caches, and kernel caches...');
-      // Drop ram value instantly
       ramVal = 19; 
       ramGB = 6.2;
       if (ramMeter) ramMeter.style.width = `${ramVal}%`;
@@ -366,7 +348,6 @@ swatches.forEach(swatch => {
     const hex = swatch.getAttribute('data-color');
     previewHexCode.textContent = hex;
     
-    // Set custom CSS variables on the launcher container
     simApp.style.setProperty('--accent-primary', hex);
     simApp.style.setProperty('--accent-primary-glow', `${hex}25`);
   });
@@ -381,7 +362,6 @@ backdropChoices.forEach(choice => {
     const simViewport = document.querySelector('.sim-content-viewport');
     const activeAccent = simApp.style.getPropertyValue('--accent-primary') || '#00f0ff';
     
-    // Apply styling matching Electron renderer/src/App.tsx:getProfileBackgroundStyle
     if (backdropType === 'mesh-cyber') {
       simViewport.style.background = `radial-gradient(circle at 10% 20%, ${activeAccent}33, transparent 45%),
                                       radial-gradient(circle at 90% 80%, #00f0ff22, transparent 45%),
@@ -390,7 +370,7 @@ backdropChoices.forEach(choice => {
       simViewport.style.background = `linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
                                       linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
                                       linear-gradient(135deg, ${activeAccent}22 0%, #030712 100%)`;
-    } else { // mesh-neon
+    } else { 
       simViewport.style.background = `radial-gradient(circle at 80% 20%, ${activeAccent}33, transparent 55%), 
                                       radial-gradient(circle at 20% 80%, #ec48991a, transparent 55%), #070a13`;
     }
@@ -420,7 +400,7 @@ if (rescanTrigger) {
   });
 }
 
-// 5. Curation Caster Shuffle & Dropdowns
+// 5. Curation Caster Shuffle
 const spotlightGenre = document.getElementById('sim-spotlight-genre');
 const spotlightShuffle = document.getElementById('sim-spotlight-shuffle');
 
@@ -434,7 +414,6 @@ function loadSpotlightGame(game) {
   spotlightCard.style.backgroundImage = `url(${game.banner})`;
 }
 
-// Inital launch spotlight
 loadSpotlightGame(MOCK_GAMES[0]);
 
 if (spotlightShuffle) {
@@ -449,7 +428,6 @@ if (spotlightShuffle) {
     if (pool.length > 0) {
       const randGame = pool[Math.floor(Math.random() * pool.length)];
       
-      // Shuffle icon spin animation
       const icon = spotlightShuffle.querySelector('svg');
       icon.style.transform = 'rotate(360deg)';
       setTimeout(() => icon.style.transform = 'rotate(0deg)', 500);
@@ -482,7 +460,6 @@ if (sliderRow) {
     sliderRow.appendChild(card);
   });
   
-  // Set first slider active
   sliderRow.querySelector('.sim-slider-card').classList.add('active');
 }
 
@@ -517,7 +494,6 @@ function renderLibrary(searchQuery = '', activeLauncher = 'all') {
     `;
     
     item.addEventListener('click', () => {
-      // Switch back to home and load spotlight
       document.getElementById('tab-btn-home').click();
       loadSpotlightGame(game);
     });
@@ -526,7 +502,6 @@ function renderLibrary(searchQuery = '', activeLauncher = 'all') {
   });
 }
 
-// Initial library render
 renderLibrary();
 
 if (libSearch) {
@@ -548,7 +523,7 @@ filterPills.forEach(pill => {
   });
 });
 
-// Launch Game click trigger log simulation
+// Launch Game trigger
 const playBtn = document.getElementById('sim-spotlight-play-btn');
 if (playBtn) {
   playBtn.addEventListener('click', () => {
@@ -587,7 +562,6 @@ if (diagRunBtn) {
     diagRunBtn.disabled = true;
     diagRunBtn.textContent = 'PERFORMING HARDWARE DIAGNOSTICS...';
     
-    // Reset views
     diagProgressBox.style.display = 'block';
     diagProgressFill.style.width = '0%';
     diagConsole.style.display = 'flex';
@@ -618,7 +592,6 @@ if (diagRunBtn) {
         diagConsole.appendChild(line);
         diagConsole.scrollTop = diagConsole.scrollHeight;
         
-        // Progress bar percentage
         const progress = Math.min(100, Math.floor((log.delay / 4900) * 100));
         diagProgressFill.style.width = `${progress}%`;
       }, log.delay);
